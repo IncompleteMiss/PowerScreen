@@ -89,7 +89,7 @@
       if (initPercentage <= 100) {
         waterEl.style.transform = `translateY(${100 - initPercentage}%)`
       }
-    }, 60)
+    }, 30)
   }
 
 </script>

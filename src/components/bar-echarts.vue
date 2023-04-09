@@ -42,7 +42,28 @@ import useEcharts from '@/hooks/useEcharts.js'
     }
 
     let option = getOption(echartsDatas)   // 准备数据
-    myCharts.setOption(option)
+    myCharts.setOption(option.option)
+
+    // 1.实现提示框轮播的功能
+    setInterval(function () {
+      autoToolTip(option.barLength, myCharts.echartsInstance);
+    }, 2000);
+
+    let index = 0;
+
+    function autoToolTip(barLength, charts) {
+      index ++;
+      if (index >= barLength) {
+        index = 0;
+      }
+      // 1.显示提示框
+      charts.dispatchAction({
+        type: "showTip", // 触发的action type
+        seriesIndex: 0, // 系列的 索引
+        dataIndex: index,// 数据项的 索引
+        position: "top", // top
+      });
+    }
   }
 
   function getOption(echartsDatas = []) {
@@ -53,7 +74,9 @@ import useEcharts from '@/hooks/useEcharts.js'
       return item.value
     })
 
-    return {
+    const barLength = categoryData.length
+
+    let option =  {
       grid: {
         left: "5%",
         right: "5%",
@@ -132,6 +155,11 @@ import useEcharts from '@/hooks/useEcharts.js'
         },
       ],
     };
+
+    return {
+      option,
+      barLength
+    }
   }
 
 </script>
